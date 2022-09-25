@@ -9,7 +9,7 @@ const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 
 // All Workers Route
 router.get('/', async (req, res) => {
-    let query = Worker.find();
+    let query = Worker.find().populate('area');
     if(req.query.name != null && req.query.name !== '') {
         query = query.regex('name', new RegExp(req.query.name, 'i'))
     }
@@ -32,7 +32,7 @@ router.get('/', async (req, res) => {
 
 // New Worker Route
 router.get('/new', async (req, res) => {
-    renderNewPage(res, new Worker())
+    renderFormPage(res, new Worker(), "new")
 })
 
 // Create Worker Route
@@ -50,10 +50,76 @@ router.post('/', async (req, res) => {
 
     try {
         const newWorker = await worker.save()
-        // res.redirect(`workers/${newWorker.id}`)
-        res.redirect(`workers`)
+        res.redirect(`workers/${newWorker.id}`)
     } catch {
-        renderNewPage(res, worker, true) 
+        renderFormPage(res, worker, "new", true) 
+    }
+})
+
+//  Show Worker Route
+ router.get('/:id', async (req, res) => {
+    try {
+        const worker = await Worker.findById(req.params.id).populate('area').exec()
+        res.render('workers/show', { worker: worker })
+    } catch {
+        res.redirect('/')
+    }
+ })
+
+ //  Edit Worker Route
+ router.get('/:id/edit', async (req, res) => {
+    try {
+        const worker = await Worker.findById(req.params.id)
+        renderFormPage(res, worker, "edit")
+    } catch {
+        res.redirect('/')
+    }
+ })
+
+ // Update Worker Route
+router.put('/:id', async (req, res) => {
+    let worker
+
+    try {
+        worker = await Worker.findById(req.params.id)
+        worker.name = req.body.name
+        worker.description = req.body.description
+        worker.workType = req.body.workType
+        worker.gender = req.body.gender
+        worker.mobileNumber = req.body.mobileNumber
+        worker.name = req.body.name
+        worker.area = req.body.area
+        if (req.body.profilePhoto != null && req.body.profilePhoto !== '') {
+            saveProfilePhoto(worker, req.body.profilePhoto)
+        }
+        await worker.save()
+        res.redirect(`/workers`)
+    } catch (err) {
+        console.error(err)
+        if (worker != null) {
+            renderFormPage(res, worker, "edit", true) 
+        } else {
+            res.redirect('/')
+        }
+    }
+})
+
+//  Delete the Worker
+router.delete('/:id', async (req, res) => {
+    let worker
+    try {
+        worker = await Worker.findById(req.params.id)
+        await worker.remove()
+        res.redirect(`/workers`)
+    } catch {
+        if (worker != null) {
+            res.render('books/show', {
+                worker: worker,
+                errorMessage: 'Could Not Remove Worker'
+            })
+        } else {
+            res.redirect('/')
+        }
     }
 })
 
@@ -68,7 +134,7 @@ function saveProfilePhoto(worker, profilePhotoEncoded) {
     }
 }
 
-async function renderNewPage(res, worker, hasError = false) {
+async function renderFormPage(res, worker, form, hasError = false) {
     try {
         const areas = await Area.find({})
         const params = {
@@ -76,13 +142,16 @@ async function renderNewPage(res, worker, hasError = false) {
             worker: worker
         }
         if (hasError) {
-            params.errorMessage = 'Error Creating Worker'
+            if(form === 'new') {
+                params.errorMessage = 'Error Creating Worker'
+            } else {
+                params.errorMessage = 'Error Updating Worker'
+            }
         }
-        res.render('workers/new', params)
+        res.render(`workers/${form}`, params)
     } catch (error) {
         res.redirect('/workers')
     }
 }
-
 
 module.exports = router

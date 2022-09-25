@@ -6,7 +6,7 @@ const router = express.Router()
 router.get('/', async (req, res) => {
     let workers
     try {
-        workers = await Worker.find().sort({ createdAt: 'desc' }).limit(10).exec()
+        workers = await Worker.find().populate('area').sort({ createdAt: 'desc' }).limit(10).exec()
     } catch {
         workers = []
     }

@@ -27,6 +27,14 @@
 
 <div>
     <% workers.forEach(worker => { %>
-        <img height="150" width="100" src="<%= worker.profileImagePath %>">
+        <a href="/workers/<%= worker.id %>">
+            <div>
+                <img height="150" width="100" src="<%= worker.profileImagePath %>">
+                <br>
+                Name: <%= worker.name %>
+                <br>
+                Area: <%= worker.area.name %>
+            </div>
+        </a>
     <% }) %> 
 </div>

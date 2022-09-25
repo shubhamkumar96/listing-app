@@ -35,7 +35,7 @@
     <label> Area </label>
     <select name="area">
     <% areas.forEach(area => { %> 
-        <% if(area.id === worker.area) {%> 
+        <% if(area.id == worker.area) {%> 
             <option selected label="<%= area.name %>" value="<%= area.id%>">
         <% } else { %> 
             <option label="<%= area.name %>" value="<%= area.id%>"></option>

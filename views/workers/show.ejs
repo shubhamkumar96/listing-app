@@ -1,0 +1,21 @@
+<h2> <%= worker.name %> </h2>
+<img height="150" width="100" src="<%= worker.profileImagePath %>">
+<div>
+    Area: <%= worker.area.name %>
+</div>
+<div>
+    Description: <%= worker.description %>
+</div>
+<div>
+    Gender: <%= worker.gender %>
+</div>
+<div>
+    Work Type: <%= worker.workType %>
+</div>
+<div>
+    Mobile Number: <%= worker.mobileNumber %>
+</div>
+
+<a href="/workers/<%= worker.id %>/edit"> Edit </a>
+<%- include('../partials/deleteForm', { url: `/workers/${worker.id}` }) %>
+<a href="/areas/<%= worker.area.id %>"> View Area </a>
