@@ -1,0 +1,12 @@
+<h2> Search Areas </h2>
+<form action="/areas" method="GET">
+    <label> Name </label>
+    <input type="text" name="name" value="<%= searchOptions.name %>">
+    <button type="submit"> Search </button>
+</form>
+
+<br>
+
+<% areas.forEach(area => { %>
+    <div> <%= area.name %> </div>
+<% }) %> 
