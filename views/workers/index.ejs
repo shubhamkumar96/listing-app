@@ -1,0 +1,32 @@
+<h2> Search Workers </h2>
+<form action="/workers" method="GET">
+    <div>
+        <label> Name </label>
+        <input type="text" name="name" value="<%= searchOptions.name %>">
+    </div>
+    <div>
+        <label> Work Type </label>
+        <input type="text" name="workType" value="<%= searchOptions.workType %>">
+    </div>
+    <!-- <div>
+        <label> Gender </label>
+        <select name="gender">
+            <option label="Male" value="Male"></option>
+            <option label="Female" value="Female"></option>
+        </select>
+    </div> -->
+    <!-- <div>
+        <label> Area </label>
+        <input type="text" name="area" value="<%= searchOptions.name %>">
+    </div> -->
+
+    <button type="submit"> Search </button>
+</form>
+
+<br>
+
+<div>
+    <% workers.forEach(worker => { %>
+        <img height="150" width="100" src="<%= worker.profileImagePath %>">
+    <% }) %> 
+</div>

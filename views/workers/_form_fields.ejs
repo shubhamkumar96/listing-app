@@ -1,0 +1,45 @@
+<div>
+    <label> Name </label>
+    <input type="text" name="name" value="<%= worker.name %>" >
+</div>
+
+<div>
+    <label> Description </label>
+    <textarea name="description"> <%= worker.description %> </textarea>
+</div>
+
+<div>
+    <label> Work Type </label>
+    <input type="text" name="workType" value="<%= worker.workType %>" >
+</div>
+
+<div>
+    <label> Gender </label>
+    <select name="gender">
+        <option label="Male" value="Male"></option>
+        <option label="Female" value="Female"></option>
+    </select>
+</div>
+
+<div>
+    <label> Profile Photo </label>
+    <input type="file" name="profilePhoto">
+</div>
+
+<div>
+    <label> Mobile Number </label>
+    <input type="text" name="mobileNumber" value="<%= worker.mobileNumber %>" >
+</div>
+
+<div>
+    <label> Area </label>
+    <select name="area">
+    <% areas.forEach(area => { %> 
+        <% if(area.id === worker.area) {%> 
+            <option selected label="<%= area.name %>" value="<%= area.id%>">
+        <% } else { %> 
+            <option label="<%= area.name %>" value="<%= area.id%>"></option>
+        <% }%> 
+    <% }) %> 
+    </select>
+</div>

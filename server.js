@@ -12,6 +12,7 @@ const app = express()
 
 const indexRouter = require('./routes/index')
 const areaRouter = require('./routes/areas')
+const workerRouter = require('./routes/workers')
 
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views')
@@ -28,5 +29,6 @@ db.once('open', () => console.log('Connected to Mongoose'))
 
 app.use('/', indexRouter)
 app.use('/areas', areaRouter)
+app.use('/workers', workerRouter)
 
 app.listen(process.env.PORT || 3003)
