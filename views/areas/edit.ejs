@@ -1,0 +1,6 @@
+<h2> Edit Area </h2>
+<form action="/areas/<%= area.id%>?_method=PUT" method="POST">
+    <%- include('_form_fields') %>
+    <a href="/areas/<%= area.id%>"> Cancel </a>
+    <button type="submit"> Update </button>
+</form>

@@ -9,4 +9,7 @@
 
 <% areas.forEach(area => { %>
     <div> <%= area.name %> </div>
+    <a href="/areas/<%= area.id %>"> View </a>
+    <a href="/areas/<%= area.id %>/edit"> Edit </a>
+    <%- include('../partials/deleteForm', { url: `/areas/${area.id}` }) %>
 <% }) %> 

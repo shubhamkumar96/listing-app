@@ -1,0 +1,13 @@
+<h2> <%= area.name %> </h2>
+
+<a href="/areas/<%= area.id %>/edit"> Edit </a>
+<%- include('../partials/deleteForm', { url: `/areas/${area.id}` }) %>
+
+<% if (workersByArea.length > 0) { %> 
+    <h2> Workers in this Area </h2>
+    <div>
+        <% workersByArea.forEach(worker => { %>
+            <img height="150" width="100" src="<%= worker.profileImagePath %>">
+        <% }) %> 
+    </div>
+<% } %> 
