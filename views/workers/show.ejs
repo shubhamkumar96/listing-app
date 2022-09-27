@@ -1,21 +1,23 @@
-<h2> <%= worker.name %> </h2>
-<img height="150" width="100" src="<%= worker.profileImagePath %>">
-<div>
-    Area: <%= worker.area.name %>
+<h2 class="page-header"> <%= worker.name %> </h2>
+<div class="worker-details">
+    <div>
+        <img class="worker-cover" src="<%= worker.profileImagePath %>">
+        <div class="worker-details-btn-grid">
+            <a class="btn btn-primary" href="/workers/<%= worker.id %>/edit"> Edit </a>
+            <%- include('../partials/deleteForm', { url: `/workers/${worker.id}` }) %>
+            <a class="btn btn-primary worker-details-area-button" href="/areas/<%= worker.area.id %>"> View Area </a>
+        </div>
+    </div>
+    <div class="worker-details-grid">
+        <div class="worker-details-label">Area:</div>
+        <div><%= worker.area.name %></div>
+        <div class="worker-details-label">Description:</div>
+        <div><%= worker.description %></div>
+        <div class="worker-details-label">Gender:</div>
+        <div><%= worker.gender %></div>
+        <div class="worker-details-label">Work Type:</div>
+        <div><%= worker.workType %></div>
+        <div class="worker-details-label">Mobile Number:</div>
+        <div><%= worker.mobileNumber %></div>
+    </div>
 </div>
-<div>
-    Description: <%= worker.description %>
-</div>
-<div>
-    Gender: <%= worker.gender %>
-</div>
-<div>
-    Work Type: <%= worker.workType %>
-</div>
-<div>
-    Mobile Number: <%= worker.mobileNumber %>
-</div>
-
-<a href="/workers/<%= worker.id %>/edit"> Edit </a>
-<%- include('../partials/deleteForm', { url: `/workers/${worker.id}` }) %>
-<a href="/areas/<%= worker.area.id %>"> View Area </a>

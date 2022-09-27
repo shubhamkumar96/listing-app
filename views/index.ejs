@@ -1,14 +1,2 @@
-<h2> Recently Added </h2>
-<div>
-    <% workers.forEach(worker => { %>
-        <a href="/workers/<%= worker.id %>">
-            <div>
-                <img height="150" width="100" src="<%= worker.profileImagePath %>">
-                <br>
-                Name: <%= worker.name %>
-                <br>
-                Area: <%= worker.area.name %>
-            </div>
-        </a>
-    <% }) %> 
-</div>
+<h2 class="page-header"> Recently Added </h2>
+<%- include('partials/workerGrid', {workers: workers, large: true}) %>

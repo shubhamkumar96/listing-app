@@ -1,19 +1,13 @@
-<h2> <%= area.name %> </h2>
+<h2 class="page-header"> <%= area.name %> </h2>
 
-<a href="/areas/<%= area.id %>/edit"> Edit </a>
-<%- include('../partials/deleteForm', { url: `/areas/${area.id}` }) %>
+<div class="btn-row">
+    <a class="btn btn-primary" href="/areas/<%= area.id %>/edit"> Edit </a>
+    <%- include('../partials/deleteForm', { url: `/areas/${area.id}` }) %>
+</div>
+
+<br>
 
 <% if (workersByArea.length > 0) { %> 
-    <h2> Workers in this Area </h2>
-    <div>
-        <% workersByArea.forEach(worker => { %>
-            <a href="/workers/<%= worker.id %>">
-                <div>
-                    <img height="150" width="100" src="<%= worker.profileImagePath %>">
-                    <br>
-                    Name: <%= worker.name %>
-                </div>
-            </a>
-        <% }) %> 
-    </div>
+    <h2 class="page-header"> Workers in this Area </h2>
+    <%- include('../partials/workerGrid', {workers: workersByArea}) %>
 <% } %> 

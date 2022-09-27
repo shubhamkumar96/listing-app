@@ -1,0 +1,15 @@
+<% workerCoverClass = locals.large ? 'worker-cover-large' : '' %>
+<% workerGridClass = locals.large ? 'worker-grid-large' : '' %>
+
+<div class="worker-grid <%=workerGridClass%>">
+    <% workers.forEach(worker => { %>
+        <a href="/workers/<%= worker.id %>">
+            <div>
+                <img class="worker-cover <%=workerCoverClass%>" src="<%= worker.profileImagePath %>">
+                Name: <%= worker.name %>
+                <br>
+                Area: <%= worker.area.name %>
+            </div>
+        </a>
+    <% }) %> 
+</div>

@@ -1,40 +1,59 @@
-<h2> Search Workers </h2>
+<h2 class="page-header"> Search Workers </h2>
 <form action="/workers" method="GET">
-    <div>
-        <label> Name </label>
-        <input type="text" name="name" value="<%= searchOptions.name %>">
+    <div class="form-row">
+        <div class="form-item">
+            <label> Name </label>
+            <input type="text" name="name" value="<%= searchOptions.name %>">
+        </div>
     </div>
-    <div>
-        <label> Work Type </label>
-        <input type="text" name="workType" value="<%= searchOptions.workType %>">
-    </div>
-    <!-- <div>
-        <label> Gender </label>
-        <select name="gender">
-            <option label="Male" value="Male"></option>
-            <option label="Female" value="Female"></option>
-        </select>
-    </div> -->
-    <!-- <div>
-        <label> Area </label>
-        <input type="text" name="area" value="<%= searchOptions.name %>">
-    </div> -->
 
-    <button type="submit"> Search </button>
+    <div class="form-row">
+        <div class="form-item">
+            <label> Work Type </label>
+            <input type="text" name="workType" value="<%= searchOptions.workType %>">
+        </div>
+        <div class="form-item">
+            <label> Gender </label>
+            <select name="gender">
+                <% if(searchOptions.gender === "Female") { %> 
+                    <option value> - select - </option>
+                    <option label="Male" value="Male"></option>
+                    <option selected label="Female" value="Female"></option>
+                <% } else if(searchOptions.gender === "Male"){ %>
+                    <option value> - select - </option>
+                    <option selected label="Male" value="Male"></option>
+                    <option label="Female" value="Female"></option>
+                <% } else { %>
+                    <option selected value> - select - </option>
+                    <option label="Male" value="Male"></option>
+                    <option label="Female" value="Female"></option>
+                <% } %>
+            </select>
+        </div>
+        <!-- // TO-DO: To implement the 'Area' Filter -->
+        <div style="display: none;" class="form-item">
+            <label> Area </label>
+            <select name="area">
+                <% areas.forEach(area => { %> 
+                    <% if(area.id == searchOptions.area) {%> 
+                        <option selected label="<%= area.name %>" value="<%= area.id%>"></option>
+                    <% } else { %> 
+                        <option label="<%= area.name %>" value="<%= area.id%>"></option>
+                    <% }%> 
+                <% }) %> 
+                <% if(searchOptions.area == null || searchOptions.area == '') { %> 
+                    <option selected value> - select - </option>
+                <% } %>
+            </select>
+        </div>
+    </div>
+
+    <div class="form-row form-row-end">
+        <button class="btn btn-primary" type="submit"> Search </button>
+    </div>
+    
 </form>
 
 <br>
 
-<div>
-    <% workers.forEach(worker => { %>
-        <a href="/workers/<%= worker.id %>">
-            <div>
-                <img height="150" width="100" src="<%= worker.profileImagePath %>">
-                <br>
-                Name: <%= worker.name %>
-                <br>
-                Area: <%= worker.area.name %>
-            </div>
-        </a>
-    <% }) %> 
-</div>
+<%- include('../partials/workerGrid', {workers: workers, large: false}) %>

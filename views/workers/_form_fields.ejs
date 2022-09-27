@@ -1,45 +1,63 @@
-<div>
-    <label> Name </label>
-    <input type="text" name="name" value="<%= worker.name %>" >
+<div class="form-row">
+    <div class="form-item">
+        <label> Name </label>
+        <input type="text" name="name" value="<%= worker.name %>" >
+    </div>
+    <div class="form-item">
+        <label> Gender </label>
+        <select name="gender">
+            <% if(worker.gender === "Female") { %> 
+                <option label="Male" value="Male"></option>
+                <option selected label="Female" value="Female"></option>
+            <% } else if (worker.gender === "Male") { %>
+                <option selected label="Male" value="Male"></option>
+                <option label="Female" value="Female"></option>
+            <% } else if (worker.gender == null) {%>
+                <option selected value> -- select an option -- </option>
+                <option label="Male" value="Male"></option>
+                <option label="Female" value="Female"></option>
+            <% } %> 
+        </select>
+    </div>
+    <div class="form-item">
+        <label> Area </label>
+        <select name="area">
+        <% areas.forEach(area => { %> 
+            <% if(area.id == worker.area) {%> 
+                <option selected label="<%= area.name %>" value="<%= area.id%>"></option>
+            <% } else { %> 
+                <option label="<%= area.name %>" value="<%= area.id%>"></option>
+            <% }%> 
+        <% }) %> 
+        <% if(worker.area == null) {%> 
+            <option disabled selected value> -- select an option -- </option>
+        <% } %> 
+        </select>
+    </div>
 </div>
 
-<div>
-    <label> Description </label>
-    <textarea name="description"> <%= worker.description %> </textarea>
+<br>
+
+<div class="form-row">
+    <div class="form-item">
+        <label> Work Type </label>
+        <input type="text" name="workType" value="<%= worker.workType %>" >
+    </div>
+    <div class="form-item">
+        <label> Mobile Number </label>
+        <input type="text" name="mobileNumber" value="<%= worker.mobileNumber %>" >
+    </div>
 </div>
 
-<div>
-    <label> Work Type </label>
-    <input type="text" name="workType" value="<%= worker.workType %>" >
-</div>
+<br>
 
-<div>
-    <label> Gender </label>
-    <select name="gender">
-        <option label="Male" value="Male"></option>
-        <option label="Female" value="Female"></option>
-    </select>
-</div>
-
-<div>
-    <label> Profile Photo </label>
-    <input type="file" name="profilePhoto" class="filepond">
-</div>
-
-<div>
-    <label> Mobile Number </label>
-    <input type="text" name="mobileNumber" value="<%= worker.mobileNumber %>" >
-</div>
-
-<div>
-    <label> Area </label>
-    <select name="area">
-    <% areas.forEach(area => { %> 
-        <% if(area.id == worker.area) {%> 
-            <option selected label="<%= area.name %>" value="<%= area.id%>">
-        <% } else { %> 
-            <option label="<%= area.name %>" value="<%= area.id%>"></option>
-        <% }%> 
-    <% }) %> 
-    </select>
+<div class="form-row">
+    <div class="form-item form-item-no-grow">
+        <label> Profile Photo </label>
+        <input type="file" name="profilePhoto" class="worker-cover filepond">
+    </div>
+    <div class="form-item">
+        <label> Description </label>
+        <textarea name="description"> <%= worker.description %> </textarea>
+    </div>
 </div>

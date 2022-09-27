@@ -1,4 +1,5 @@
 const express = require('express')
+const mongoose = require('mongoose')
 
 const Area = require('../models/area')
 const Worker = require('../models/worker')
@@ -9,23 +10,31 @@ const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 
 // All Workers Route
 router.get('/', async (req, res) => {
-    let query = Worker.find().populate('area');
-    if(req.query.name != null && req.query.name !== '') {
-        query = query.regex('name', new RegExp(req.query.name, 'i'))
-    }
-    if(req.query.workType != null && req.query.workType !== '') {
-        query = query.regex('workType', new RegExp(req.query.workType, 'i'))
-    }
-    if(req.query.gender != null && req.query.gender !== '') {
-        query = query.regex('gender', new RegExp(req.query.gender, 'i'))
-    }
     try {
+        const areas = await Area.find({})
+        let query = Worker.find().populate('area');
+        if(req.query.name != null && req.query.name !== '') {
+            query = query.regex('name', new RegExp(req.query.name, 'i'))
+        }
+        if(req.query.workType != null && req.query.workType !== '') {
+            query = query.regex('workType', new RegExp(req.query.workType, 'i'))
+        }
+        if(req.query.gender != null && req.query.gender !== '') {
+            query = query.regex('gender', req.query.gender)
+        }
+        // console.log(req.query.area, "1")
+        // if(req.query.area != null && req.query.area !== '') {
+        //     query = query.regex('area',new mongoose.Types.ObjectId(req.query.area))
+        // }
+        // console.log(query._conditions, "2")
         const workers = await query.exec()
         res.render('workers/index', {
             workers: workers,
+            areas: areas,
             searchOptions: req.query
         })
-    } catch {
+    } catch (err) {
+        console.error(err)
         res.redirect('/')
     }
 })
