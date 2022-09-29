@@ -8,3 +8,6 @@
 5.  npm i --save-dev dotenv
 6.  npm i body-parser
 7.  npm i method-override
+8.  npm i jsonwebtoken
+9.  npm i dotenv
+10. npm i bcrypt

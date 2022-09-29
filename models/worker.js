@@ -20,6 +20,9 @@ const workerSchema = new mongoose.Schema({
         type: Buffer,
         required: true
     },
+    images: [{
+        type: Buffer,
+    }],
     profilePhotoType: {
         type: String,
         required: true

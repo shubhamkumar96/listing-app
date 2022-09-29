@@ -1,6 +1,6 @@
 :root {
     --worker-cover-width: 200px;
-    --worker-cover-width-large: 325px;
+    --worker-cover-width-large: 250px;
     --worker-cover-aspect-ratio: 0.75;
   }
   
@@ -15,8 +15,9 @@
   
   .worker-grid {
     display: grid;
-    justify-content: center;
-    grid-gap: 2rem;
+    justify-content:flex-start;
+    grid-gap: 1rem;
+    margin: 0rem;
     grid-template-columns: repeat(auto-fill, var(--worker-cover-width));
   }
   

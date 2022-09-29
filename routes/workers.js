@@ -2,6 +2,7 @@ const express = require('express')
 const mongoose = require('mongoose')
 
 const Area = require('../models/area')
+const worker = require('../models/worker')
 const Worker = require('../models/worker')
 
 const router = express.Router()
@@ -11,8 +12,30 @@ const imageMimeTypes = ['image/jpeg', 'image/png', 'image/gif']
 // All Workers Route
 router.get('/', async (req, res) => {
     try {
+        //  To get list of all workTypes & Areas
+        let allWorkers = await Worker.find({});
+
+        let workTypes = []
+        allWorkers.forEach(worker => {
+            workTypes.push(worker.workType)
+        })
+        workTypes = [...new Set(workTypes)];
+
         const areas = await Area.find({})
-        let query = Worker.find().populate('area');
+
+        let query = Worker.find();
+        if(req.query.area == null) {
+            query = query.populate('area')
+        } else {
+            query = query.populate({
+                path: 'area',
+                model: 'Area',
+                match: { 
+                    name: { $regex: req.query.area }
+                }
+            })
+        }
+
         if(req.query.name != null && req.query.name !== '') {
             query = query.regex('name', new RegExp(req.query.name, 'i'))
         }
@@ -22,15 +45,19 @@ router.get('/', async (req, res) => {
         if(req.query.gender != null && req.query.gender !== '') {
             query = query.regex('gender', req.query.gender)
         }
-        // console.log(req.query.area, "1")
-        // if(req.query.area != null && req.query.area !== '') {
-        //     query = query.regex('area',new mongoose.Types.ObjectId(req.query.area))
-        // }
-        // console.log(query._conditions, "2")
-        const workers = await query.exec()
+
+        let workers = await query.exec()
+        //  Filter out workers with 'null' populated value in 'area' field.
+        workers = workers.filter(worker => worker.area != null)
+
+        // workers.forEach(worker => {
+        //     console.log(worker.name, worker.area, "ff")
+        // })
+
         res.render('workers/index', {
             workers: workers,
             areas: areas,
+            workTypes: workTypes,
             searchOptions: req.query
         })
     } catch (err) {
@@ -54,9 +81,8 @@ router.post('/', async (req, res) => {
         mobileNumber: req.body.mobileNumber,
         area: req.body.area
     })
-
     saveProfilePhoto(worker, req.body.profilePhoto)
-
+    
     try {
         const newWorker = await worker.save()
         res.redirect(`workers/${newWorker.id}`)
@@ -132,15 +158,30 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-function saveProfilePhoto(worker, profilePhotoEncoded) {
-    if (profilePhotoEncoded == null) {
+function saveProfilePhoto(worker, encodedImage) {
+    if (encodedImage == null) {
+        // console.log("TEST-10")
         return
     }
-    const profilePhoto = JSON.parse(profilePhotoEncoded)
-    if(profilePhoto != null && imageMimeTypes.includes(profilePhoto.type)) {
-        worker.profilePhoto = new Buffer.from(profilePhoto.data, 'base64')
-        worker.profilePhotoType = profilePhoto.type
+
+    let profilePhotoEncodedList
+    if (Array.isArray(encodedImage)) {
+        profilePhotoEncodedList = [...encodedImage]
+    } else {
+        profilePhotoEncodedList = [encodedImage]
     }
+
+    profilePhotoEncodedList.forEach(profilePhotoEncoded => {
+        const profilePhoto = JSON.parse(profilePhotoEncoded)
+        let images = worker.images;
+        // console.log(profilePhotoEncoded)
+        // console.error("======")
+        if(profilePhoto != null && imageMimeTypes.includes(profilePhoto.type)) {
+            worker.profilePhoto = new Buffer.from(profilePhoto.data, 'base64')
+            worker.profilePhotoType = profilePhoto.type
+            images.push(new Buffer.from(profilePhoto.data, 'base64'))
+        }
+    })
 }
 
 async function renderFormPage(res, worker, form, hasError = false) {

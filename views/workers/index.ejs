@@ -10,40 +10,55 @@
     <div class="form-row">
         <div class="form-item">
             <label> Work Type </label>
-            <input type="text" name="workType" value="<%= searchOptions.workType %>">
+            <select name="workType">
+                <% if(searchOptions.workType == null || searchOptions.workType == '') {%> 
+                    <option selected value> - Select Work Type - </option>
+                <% } else { %>
+                    <option value> - Select Work Type - </option>
+                <% } %>
+                <% workTypes.forEach(workType => { %> 
+                    <% if(workType == searchOptions.workType) {%> 
+                        <option selected label="<%= searchOptions.workType %>" value="<%= searchOptions.workType%>"></option>
+                    <% } else { %> 
+                        <option label="<%= workType %>" value="<%= workType %>"></option>
+                    <% }%> 
+                <% }) %> 
+            </select>
         </div>
         <div class="form-item">
             <label> Gender </label>
             <select name="gender">
                 <% if(searchOptions.gender === "Female") { %> 
-                    <option value> - select - </option>
+                    <option value> - Select Gender - </option>
                     <option label="Male" value="Male"></option>
                     <option selected label="Female" value="Female"></option>
                 <% } else if(searchOptions.gender === "Male"){ %>
-                    <option value> - select - </option>
+                    <option value> - Select Gender - </option>
                     <option selected label="Male" value="Male"></option>
                     <option label="Female" value="Female"></option>
                 <% } else { %>
-                    <option selected value> - select - </option>
+                    <option selected value> - Select Gender - </option>
                     <option label="Male" value="Male"></option>
                     <option label="Female" value="Female"></option>
                 <% } %>
             </select>
         </div>
         <!-- // TO-DO: To implement the 'Area' Filter -->
-        <div style="display: none;" class="form-item">
+        <div class="form-item">
             <label> Area </label>
-            <select name="area">
+            <select name="area">         
+                <% if(searchOptions.area == null || searchOptions.area == '') { %> 
+                    <option selected value> - Select Area - </option>
+                <% } else { %>
+                    <option value> - Select Area - </option>
+                <% } %>
                 <% areas.forEach(area => { %> 
-                    <% if(area.id == searchOptions.area) {%> 
-                        <option selected label="<%= area.name %>" value="<%= area.id%>"></option>
+                    <% if(area.name == searchOptions.area) {%> 
+                        <option selected label="<%= area.name %>" value="<%= area.name%>"></option>
                     <% } else { %> 
-                        <option label="<%= area.name %>" value="<%= area.id%>"></option>
+                        <option label="<%= area.name %>" value="<%= area.name%>"></option>
                     <% }%> 
                 <% }) %> 
-                <% if(searchOptions.area == null || searchOptions.area == '') { %> 
-                    <option selected value> - select - </option>
-                <% } %>
             </select>
         </div>
     </div>

@@ -13,7 +13,7 @@
                 <option selected label="Male" value="Male"></option>
                 <option label="Female" value="Female"></option>
             <% } else if (worker.gender == null) {%>
-                <option selected value> -- select an option -- </option>
+                <option selected value> -- Select Gender -- </option>
                 <option label="Male" value="Male"></option>
                 <option label="Female" value="Female"></option>
             <% } %> 
@@ -30,7 +30,7 @@
             <% }%> 
         <% }) %> 
         <% if(worker.area == null) {%> 
-            <option disabled selected value> -- select an option -- </option>
+            <option selected value> -- Select Area -- </option>
         <% } %> 
         </select>
     </div>
@@ -54,7 +54,7 @@
 <div class="form-row">
     <div class="form-item form-item-no-grow">
         <label> Profile Photo </label>
-        <input type="file" name="profilePhoto" class="worker-cover filepond">
+        <input type="file" name="profilePhoto" multiple class="worker-cover filepond">
     </div>
     <div class="form-item">
         <label> Description </label>

@@ -21,3 +21,11 @@
         <div><%= worker.mobileNumber %></div>
     </div>
 </div>
+<div class="worker-details">
+    <% worker.images.forEach(image => { %> 
+        <%if(image != null && image.type != null) { %>
+        <%    return `data:${image.type};charset=utf-8;base64,${image.toString('base64')}` %>
+        <% } %>
+        <img class="worker-cover" src="<%= `data:${image.type};charset=utf-8;base64,${image.toString('base64')}` %>">
+    <% }) %> 
+</div>

@@ -3,12 +3,18 @@
 
 <div class="worker-grid <%=workerGridClass%>">
     <% workers.forEach(worker => { %>
-        <a href="/workers/<%= worker.id %>">
-            <div>
+        <a href="/workers/<%= worker.id %>" style="text-decoration: none;">
+            <div class="btn-primary">
                 <img class="worker-cover <%=workerCoverClass%>" src="<%= worker.profileImagePath %>">
-                Name: <%= worker.name %>
-                <br>
-                Area: <%= worker.area.name %>
+                <p > 
+                    <%= worker.name %> 
+                    <br>
+                    <%= worker.workType %>
+                    <br>
+                    Area: <%= worker.area.name %>
+                    <br>
+                    <%= worker.mobileNumber %>
+                </p>
             </div>
         </a>
     <% }) %> 
