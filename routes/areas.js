@@ -46,7 +46,7 @@ router.post('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
     try {
         const area = await Area.findById(req.params.id)
-        const workersByArea = await Worker.find({ area: area.id}).limit(20).exec()
+        const workersByArea = await Worker.find({ area: area.id, listingStatus: 'true'}).limit(20).exec()
         res.render('areas/show', {
             area: area,
             workersByArea: workersByArea

@@ -23,7 +23,8 @@ router.get('/', async (req, res) => {
 
         const areas = await Area.find({})
 
-        let query = Worker.find();
+        //  To skip listings which is not activated for Listing
+        let query = Worker.find({})
         if(req.query.area == null) {
             query = query.populate('area')
         } else {
@@ -45,6 +46,10 @@ router.get('/', async (req, res) => {
         if(req.query.gender != null && req.query.gender !== '') {
             query = query.regex('gender', req.query.gender)
         }
+
+        query = query.regex('listingStatus', 'true')
+
+        console.log(query._conditions)
 
         let workers = await query.exec()
         //  Filter out workers with 'null' populated value in 'area' field.
@@ -124,9 +129,28 @@ router.put('/:id', async (req, res) => {
         worker.mobileNumber = req.body.mobileNumber
         worker.name = req.body.name
         worker.area = req.body.area
+        worker.listingStatus = "false"
         if (req.body.profilePhoto != null && req.body.profilePhoto !== '') {
             saveProfilePhoto(worker, req.body.profilePhoto)
         }
+        await worker.save()
+        res.redirect(`/workers`)
+    } catch (err) {
+        console.error(err)
+        if (worker != null) {
+            renderFormPage(res, worker, "edit", true) 
+        } else {
+            res.redirect('/')
+        }
+    }
+})
+
+ // Route to Update Worker 'listingStatus' to active ("true")
+ router.get('/:id/activate', async (req, res) => {
+    let worker
+    try {
+        worker = await Worker.findById(req.params.id)
+        worker.listingStatus = "true"
         await worker.save()
         res.redirect(`/workers`)
     } catch (err) {

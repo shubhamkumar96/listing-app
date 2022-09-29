@@ -11,3 +11,8 @@
 8.  npm i jsonwebtoken
 9.  npm i dotenv
 10. npm i bcrypt
+
+
+### Hidden APIs:-
+'/hidden-workers' => To get list of all Inactive listings.
+'workers/:id/activate' => To make the listing status = "true", to activate its listing.

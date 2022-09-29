@@ -31,6 +31,11 @@ const workerSchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    listingStatus: {
+        type: String,
+        required: true,
+        default: false
+    },
     area: {
         type: mongoose.Schema.Types.ObjectId,
         required: true,
